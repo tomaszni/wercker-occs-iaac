@@ -3,6 +3,8 @@ box: node
 deploy-to-occs:
 
   steps:
+    - install-package: gettext
+
     - script:
         name: merge json, yaml and env into deployment descriptor
         code: |
