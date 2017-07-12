@@ -1,0 +1,17 @@
+{
+    "deployment_id": "${CAN_DO_PREFIX}-haproxy-lb-2-nginx",
+    "deployment_name": "${CAN_DO_PREFIX}-haproxy-lb-2-nginx",
+    "desired_state": 1,
+    "placement": {
+        "pool_id": "default"
+    },
+    "quantities": {
+        "${CAN_DO_PREFIX}-backend": 2
+    },
+    "stack": {
+        "content": ${YAML_CONTENT},
+        "service_id": "${CAN_DO_PREFIX}-haproxy-lb-2-nginx",
+        "service_name": "${CAN_DO_PREFIX}-haproxy-lb-2-nginx",
+        "subtype": "stack"
+    }
+}

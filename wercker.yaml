@@ -1,0 +1,22 @@
+box: node
+
+deploy-to-occs:
+
+  steps:
+    - script:
+        name: merge json, yaml and env into deployment descriptor
+        code: |
+          echo "Merging json, yaml and environment variables into deployment descriptor"
+          cat deployment.json | YAML_CONTENT=$(cat stack.yaml | envsubst | node escape-to-json.js) envsubst > body.json
+    - script:
+        name: create or update deployment
+        code: >
+          echo "Invoking curl"
+          &&
+          curl -ski -X POST
+          ${OCCS_URL}/api/v2/deployments/
+          -H 'accept: application/json'
+          -H "authorization: Bearer ${OCCS_TOKEN}"
+          -H 'cache-control: no-cache'
+          -H 'content-type: application/json'
+          -d '@body.json'

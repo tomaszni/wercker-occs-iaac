@@ -1,0 +1,27 @@
+version: 2
+services:
+  ${CAN_DO_PREFIX}-backend:
+    image: 'waldemarthiel/nginx-backend:0.2'
+    environment:
+      - 'constraint:pool_id==default'
+      - >-
+        occs:description=The nginx backends will be load balanced dynamically
+        using service discovery.
+    ports:
+      - 80/tcp
+  ${CAN_DO_PREFIX}-loadbalancer:
+    image: 'waldemarthiel/haproxy:0.2'
+    environment:
+      - 'OCCS_API_TOKEN={{api_token}}'
+      - KV_IP=172.17.0.1
+      - KV_PORT=9109
+      - 'OCCS_BACKEND_KEY={{sd_deployment_containers_path "${CAN_DO_PREFIX}-backend" 80}}'
+      - 'OCCS_HEALTHCHECK_HTTP=http://:88${CAN_DO_PREFIX}/?timeout=10s&interval=30s'
+      - >-
+        occs:description=This is a HA Proxy loadbalancer with nginx backends.
+        Visit port 88${CAN_DO_PREFIX} on the host running the loadbalancer to view the running
+        example. Because this service has a static host-bound port, only one
+        deployment can be done per host without getting port conflicts.
+    ports:
+      - '88${CAN_DO_PREFIX}:5000/tcp'
+      - '19${CAN_DO_PREFIX}:1936/tcp'
