@@ -6,7 +6,7 @@
         "pool_id": "default"
     },
     "quantities": {
-        "${CAN_DO_PREFIX}-backend": 2
+        "${CAN_DO_PREFIX}-backend": 6
     },
     "stack": {
         "content": ${YAML_CONTENT},
