@@ -16,7 +16,7 @@ deploy-to-occs:
         code: >
           echo "Invoking curl"
           &&
-          curl -fk -X POST
+          curl -sfk -X POST
           "${OCCS_URL}/api/v2/deployments/"
           -H 'accept: application/json'
           -H "authorization: Bearer ${OCCS_TOKEN}"
@@ -24,7 +24,7 @@ deploy-to-occs:
           -H 'content-type: application/json'
           -d '@body.json'
           ||
-          curl -fk -X PUT
+          curl -sfk -X PUT
           "${OCCS_URL}/api/v2/deployments/$(node -p 'require("./body.json").deployment_id')"
           -H 'accept: application/json'
           -H "authorization: Bearer ${OCCS_TOKEN}"
